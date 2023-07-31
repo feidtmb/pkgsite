@@ -24,6 +24,10 @@ database_host="localhost"
 if [[ $GO_DISCOVERY_DATABASE_HOST != "" ]]; then
   database_host=$GO_DISCOVERY_DATABASE_HOST
 fi
+database_port="5432"
+if [[ $GO_DISCOVERY_DATABASE_PORT != "" ]]; then
+  database_port=$GO_DISCOVERY_DATABASE_PORT
+fi
 database_name='discovery-db'
 if [[ $GO_DISCOVERY_DATABASE_NAME != "" ]]; then
   database_name=$GO_DISCOVERY_DATABASE_NAME
@@ -39,7 +43,7 @@ case "$1" in
   up|down|force|version)
     migrate \
       -source file:migrations \
-      -database "postgresql://$database_user:$database_password@$database_host:5432/$database_name?sslmode=$ssl_mode" \
+      -database "postgresql://$database_user:$database_password@$database_host:$database_port/$database_name?sslmode=$ssl_mode" \
       "$@" 2>&1
     ;;
   *)
